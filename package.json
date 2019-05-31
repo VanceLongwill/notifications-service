@@ -7,6 +7,7 @@
     "dev": "ts-node -r dotenv/config src/server.ts",
     "start": "node -r dotenv/config build/server.js",
     "build": "npx tsc src/server.ts --outDir build",
+    "types": "npx tsc src/server.ts --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
