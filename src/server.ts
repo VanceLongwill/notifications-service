@@ -35,15 +35,6 @@ app.use(express.json());
 app.use(cors());
 app.options("*", cors());
 
-// app.use((_, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*")
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   )
-//   next()
-// })
-
 // Endpoint for the browser to send the subscriptions
 app.post("/save-subscription", saveSubscription(db));
 

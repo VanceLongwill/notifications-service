@@ -1,4 +1,5 @@
 {
+  "id": "AA6kcujCK",
   "endpoint": "https://some.pushservice.com/something-unique",
   "keys": {
     "p256dh":

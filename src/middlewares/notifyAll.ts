@@ -1,6 +1,6 @@
 import * as express from "express";
 import * as webpush from "web-push";
-import { IDatabase } from "../db";
+import { IDatabase } from "../types";
 
 // Send a notification to all currently subscribed clients
 export default (db: IDatabase) => async (
@@ -20,7 +20,7 @@ export default (db: IDatabase) => async (
   }
 
   try {
-    const subscriptions = await db.getSubscriptions();
+    const subscriptions = await db.getAllSubscriptions();
     console.log(`
         Sending notification to ${subscriptions.length} users
         Notification message: ${notificationMessage}
@@ -28,7 +28,7 @@ export default (db: IDatabase) => async (
     subscriptions.forEach(async subscription => {
       try {
         const res = await webpush.sendNotification(
-          subscription,
+          subscription.subscription,
           notificationMessage
         );
         console.log(res.body);
