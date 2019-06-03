@@ -4,7 +4,8 @@ import * as webpush from "web-push";
 export interface IDatabase {
   // Store a subscription object for later use when sending notifications
   saveSubscription(
-    subscription: webpush.PushSubscription
+    subscription: webpush.PushSubscription,
+    id?: string | null
   ): Promise<IUserSubscription>;
   // Retrieves a list of subscription objects
   getAllSubscriptions(): Promise<IUserSubscription[]>;

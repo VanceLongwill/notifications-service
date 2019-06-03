@@ -1,14 +1,1 @@
-{
-  "subscriptions": [
-    {
-      "id": "s9fsdf98f8d9sqksqk2hedas9d87",
-      "subscription": {
-        "endpoint": "https://some.pushservice.com/something-unique",
-        "keys": {
-          "p256dh": "BIPUL12DLfytvTajnryr2PRdAgXS3HGKiLqndGcJGabyhHheJYlNGCeXl1dn18gSJ1WAkAPIxr4gK0_dQds4yiI=",
-          "auth": "FPssNDTKnInHVndSTdbKFw=="
-        }
-      }
-    }
-  ]
-}
+

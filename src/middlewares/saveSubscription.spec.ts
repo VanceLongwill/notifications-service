@@ -180,9 +180,10 @@ describe("saveSubscription middleware", () => {
     );
 
     assert(mockDB.saveSubscription.calledOnce);
-    expect(mockDB.saveSubscription.firstCall.args[0]).to.deep.equal(
-      mockReq.body
-    );
+    expect(mockDB.saveSubscription.firstCall.args).to.deep.equal([
+      mockReq.body.subscription,
+      mockReq.body.id
+    ]);
 
     assert(mockRes.status.calledOnce);
     expect(mockRes.status.firstCall.args[0]).to.equal(200);
@@ -265,9 +266,10 @@ describe("saveSubscription middleware", () => {
     );
 
     assert(mockDB.saveSubscription.calledOnce);
-    expect(mockDB.saveSubscription.firstCall.args[0]).to.deep.equal(
-      mockReq.body
-    );
+    expect(mockDB.saveSubscription.firstCall.args).to.deep.equal([
+      mockReq.body.subscription,
+      mockReq.body.id
+    ]);
 
     assert(mockRes.status.calledOnce);
     expect(mockRes.status.firstCall.args[0]).to.equal(200);
