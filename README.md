@@ -39,3 +39,10 @@ A service to receive push notification subscriptions from the browser and to dis
    localhost:5000/notify-all
   ```
 
+- **POST** `/notify-all`
+
+  ```sh
+  curl -X POST -H "Content-type: application/json" \
+   --data @samples/notify-payload.json \
+   localhost:5000/notify
+  ```

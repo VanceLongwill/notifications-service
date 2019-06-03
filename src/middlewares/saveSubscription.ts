@@ -63,9 +63,8 @@ export default (db: IDatabase) => async (
     if (foundSubscriptions.length > 0) {
       if (foundSubscriptions.length > 1) {
         console.warn(
-          `Found duplicate subscriptions for url: ${
-            req.body.subscription.endpoint
-          }`
+          `Found duplicate subscriptions for url: ${req.body.subscription
+            .endpoint}`
         );
       } else if (foundSubscriptions[0].id === null && !req.body.id) {
         // anonymous subscription is already saved

@@ -86,7 +86,7 @@ describe("saveSubscription middleware", () => {
       subscriptions[3].id
     );
 
-    assert(mockDB.getSubscriptionsByURL.notCalled)
+    assert(mockDB.getSubscriptionsByURL.notCalled);
 
     assert(
       mockDB.removeSubscription.notCalled,

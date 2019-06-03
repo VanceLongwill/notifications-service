@@ -8,6 +8,7 @@ import DB from "./db";
 // middlewares
 import saveSubscription from "./middlewares/saveSubscription";
 import notifyAll from "./middlewares/notifyAll";
+import notify from "./middlewares/notify";
 import getVapidKey from "./middlewares/getVapidKey";
 
 // config
@@ -38,7 +39,10 @@ app.options("*", cors());
 app.post("/save-subscription", saveSubscription(db));
 
 // Dispatch a notification to all subscribed users
-app.post("/notify-all", notifyAll(db, webpush.sendNotification));
+app.post("/notify-all", notifyAll(db, webpush));
+
+// Dispatch a notfication to a specific user/set of users
+app.post("/notify", notify(db, webpush));
 
 // Get the vapid key
 app.get("/vapid-key", getVapidKey(vapidKeys.publicKey));

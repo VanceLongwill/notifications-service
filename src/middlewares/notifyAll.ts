@@ -1,8 +1,8 @@
 import * as express from "express";
-import { IDatabase, ISendNotfication} from "../types";
+import { IDatabase, ISendNotfication } from "../types";
 
 // Send a notification to all currently subscribed clients
-export default (db: IDatabase, sendNotification: ISendNotfication) => async (
+export default (db: IDatabase, notificationService: ISendNotfication) => async (
   req: express.Request,
   res: express.Response
 ) => {
@@ -26,7 +26,10 @@ export default (db: IDatabase, sendNotification: ISendNotfication) => async (
     //   `);
     subscriptions.forEach(async subscription => {
       try {
-        await sendNotification(subscription.subscription, notificationMessage);
+        await notificationService.sendNotification(
+          subscription.subscription,
+          notificationMessage
+        );
       } catch (e) {
         // @TODO: remove subscription endpoints which cause errors
         console.warn(e.message);

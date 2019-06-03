@@ -32,7 +32,9 @@ export interface ISubscriptionsSchema {
 }
 
 // Function used to dispatch a push notification
-export type ISendNotfication = (
-  subscription: IUserSubscription["subscription"],
-  message: string
-) => Promise<any>;
+export interface ISendNotfication {
+  sendNotification(
+    subscription: IUserSubscription["subscription"],
+    message: string
+  ): Promise<any>;
+}

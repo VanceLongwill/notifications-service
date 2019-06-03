@@ -19,7 +19,7 @@ describe("notifyAll middleware", () => {
   beforeEach(() => {
     mockDB = new MockDB();
     sendNotification = sinon.stub();
-    middleware = notifyAll(mockDB, sendNotification);
+    middleware = notifyAll(mockDB, { sendNotification });
     mockRes = {
       status: sinon.spy(),
       send: sinon.spy()
