@@ -8,11 +8,15 @@
     "start": "node -r dotenv/config build/server.js",
     "build": "npx tsc src/server.ts --outDir build",
     "types": "npx tsc src/server.ts --noEmit",
-    "test": "mocha -r ts-node/register -r source-map-support/register --recursive src/**/*.spec.ts",
+    "test": "mocha -r ts-node/register -r source-map-support/register src/**/*.spec.ts",
     "coverage": "nyc npm run test"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
     "extension": [
       ".ts"
     ],
@@ -23,6 +27,12 @@
       "src/__stubs__",
       "**/*.spec.ts"
     ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true,
     "all": true
   },
   "keywords": [],

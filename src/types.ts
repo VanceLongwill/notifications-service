@@ -30,3 +30,9 @@ export interface IUserSubscription {
 export interface ISubscriptionsSchema {
   subscriptions: IUserSubscription[];
 }
+
+// Function used to dispatch a push notification
+export type ISendNotfication = (
+  subscription: IUserSubscription["subscription"],
+  message: string
+) => Promise<any>;

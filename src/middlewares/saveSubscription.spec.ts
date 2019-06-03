@@ -86,6 +86,8 @@ describe("saveSubscription middleware", () => {
       subscriptions[3].id
     );
 
+    assert(mockDB.getSubscriptionsByURL.notCalled)
+
     assert(
       mockDB.removeSubscription.notCalled,
       "should not remove existing subscription"
@@ -285,7 +287,7 @@ describe("saveSubscription middleware", () => {
     };
 
     const errorMsg = "aaahhhhhhh";
-    mockDB.getSubscriptionsByID.throws(new Error(errorMsg));
+    mockDB.getSubscriptionsByID.rejects(new Error(errorMsg));
 
     await middleware(mockReq as any, mockRes as any);
 

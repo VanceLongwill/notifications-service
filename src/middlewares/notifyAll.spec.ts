@@ -53,7 +53,7 @@ describe("notifyAll middleware", () => {
       }
     };
 
-    sendNotification.returns(Promise.resolve({ body: "something" } as any));
+    sendNotification.resolves({ body: "something" });
     mockDB.getAllSubscriptions.returns(subscriptions);
 
     await middleware(mockReq as any, mockRes as any);
@@ -81,9 +81,9 @@ describe("notifyAll middleware", () => {
       }
     };
 
-    sendNotification.returns(Promise.resolve({ body: "something" } as any));
+    sendNotification.resolves({ body: "something" });
     const errorMsg = "aaahhhhhhh";
-    mockDB.getAllSubscriptions.throws(new Error(errorMsg));
+    mockDB.getAllSubscriptions.rejects(new Error(errorMsg));
 
     await middleware(mockReq as any, mockRes as any);
 

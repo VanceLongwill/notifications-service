@@ -1,10 +1,5 @@
 import * as express from "express";
-import { IDatabase, IUserSubscription } from "../types";
-
-type ISendNotfication = (
-  subscription: IUserSubscription["subscription"],
-  message: string
-) => Promise<any>;
+import { IDatabase, ISendNotfication} from "../types";
 
 // Send a notification to all currently subscribed clients
 export default (db: IDatabase, sendNotification: ISendNotfication) => async (

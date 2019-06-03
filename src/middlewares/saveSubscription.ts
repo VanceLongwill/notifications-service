@@ -44,7 +44,7 @@ export default (db: IDatabase) => async (
       // check if we've already received the user's subscription
       const isAlreadySaved = foundSubscriptions.some(
         userSubscription =>
-          // check if this client's endpoint matches the existing entry 
+          // check if this client's endpoint matches the existing entry
           userSubscription.subscription.endpoint ===
           req.body.subscription.endpoint
       );
