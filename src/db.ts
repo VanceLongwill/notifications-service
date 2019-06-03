@@ -26,7 +26,7 @@ export default class DB implements IDatabase {
   // save the subcription to lowdb
   public saveSubscription(
     subscription: webpush.PushSubscription,
-    id: string = null
+    id: string | null = null
   ) {
     const savedItem = this.db
       .get("subscriptions")

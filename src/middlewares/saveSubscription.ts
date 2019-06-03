@@ -42,17 +42,17 @@ export default (db: IDatabase) => async (
     if (req.body.id) {
       const foundSubscriptions = await db.getSubscriptionsByID(req.body.id);
       // check if we've already received the user's subscription
-      for (const userSubscription of foundSubscriptions) {
-        // check if this client has already been subscribed
-        if (
+      const isAlreadySaved = foundSubscriptions.some(
+        userSubscription =>
+          // check if this client's endpoint matches the existing entry 
           userSubscription.subscription.endpoint ===
           req.body.subscription.endpoint
-        ) {
-          // subscription is already saved
-          res.status(200);
-          res.send({ message: "Already subscribed" });
-          return;
-        }
+      );
+
+      if (isAlreadySaved) {
+        res.status(200);
+        res.send({ message: "Already subscribed" });
+        return;
       }
     }
     // check if this client's endpoint has already been registered

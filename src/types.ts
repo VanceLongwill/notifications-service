@@ -23,7 +23,7 @@ export interface IUserSubscription {
   // push notification subscription
   subscription: webpush.PushSubscription;
   // corresponding user id
-  id: string;
+  id: string | null;
 }
 
 // DB schema representation

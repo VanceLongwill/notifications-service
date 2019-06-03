@@ -28,7 +28,6 @@ const db = new DB();
 
 const app = express();
 
-
 // express JSON req/res middleware
 app.use(express.json());
 // setup cross origin headers for all routes
