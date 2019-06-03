@@ -39,7 +39,7 @@ app.options("*", cors());
 app.post("/save-subscription", saveSubscription(db));
 
 // Dispatch a notification to all subscribed users
-app.post("/notify-all", notifyAll(db));
+app.post("/notify-all", notifyAll(db, webpush.sendNotification));
 
 // Get the vapid key
 app.get("/vapid-key", getVapidKey(vapidKeys.publicKey));

@@ -1,9 +1,13 @@
 import * as express from "express";
-import * as webpush from "web-push";
-import { IDatabase } from "../types";
+import { IDatabase, IUserSubscription } from "../types";
+
+type ISendNotfication = (
+  subscription: IUserSubscription["subscription"],
+  message: string
+) => Promise<any>;
 
 // Send a notification to all currently subscribed clients
-export default (db: IDatabase) => async (
+export default (db: IDatabase, sendNotification: ISendNotfication) => async (
   req: express.Request,
   res: express.Response
 ) => {
@@ -21,17 +25,13 @@ export default (db: IDatabase) => async (
 
   try {
     const subscriptions = await db.getAllSubscriptions();
-    console.log(`
-        Sending notification to ${subscriptions.length} users
-        Notification message: ${notificationMessage}
-      `);
+    // console.log(`
+    //     Sending notification to ${subscriptions.length} users
+    //     Notification message: ${notificationMessage}
+    //   `);
     subscriptions.forEach(async subscription => {
       try {
-        const res = await webpush.sendNotification(
-          subscription.subscription,
-          notificationMessage
-        );
-        console.log(res.body);
+        await sendNotification(subscription.subscription, notificationMessage);
       } catch (e) {
         // @TODO: remove subscription endpoints which cause errors
         console.warn(e.message);
@@ -44,8 +44,9 @@ export default (db: IDatabase) => async (
   } catch (e) {
     res.status(500);
     res.send({
+      message: "Unable to send notifications",
       error: {
-        message: "Unable to send notifications"
+        message: e.message
       }
     });
   }
