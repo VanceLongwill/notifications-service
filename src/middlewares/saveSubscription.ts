@@ -75,7 +75,7 @@ export default (db: IDatabase) => async (
       }
       // remove subscriptions using the same client
       // this means that users must stay logged in to keep receiving notifications
-      await Promise.all(foundSubscriptions.map(db.removeSubscription));
+      await Promise.all(foundSubscriptions.map(s => db.removeSubscription(s)));
     }
 
     await db.saveSubscription(

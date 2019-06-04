@@ -58,7 +58,7 @@ export default class DB implements IDatabase {
       .get("subscriptions")
       .filter({
         subscription: {
-          // endpoint is unique per user
+          // endpoint is unique per client
           endpoint: url
         }
       })
