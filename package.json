@@ -36,8 +36,8 @@
     "all": true
   },
   "keywords": [],
-  "author": "Vance Longwill <vancel@whenyoumove.com>",
-  "license": "ISC",
+  "author": "Vance Longwill <vancelongwill@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
