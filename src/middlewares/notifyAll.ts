@@ -2,10 +2,10 @@ import * as express from "express";
 import { IDatabase, ISendNotfication } from "../types";
 
 // Send a notification to all currently subscribed clients
-export default (db: IDatabase, notificationService: ISendNotfication) => async (
-  req: express.Request,
-  res: express.Response
-) => {
+export default (
+  db: IDatabase,
+  notificationService: ISendNotfication
+): express.Handler => async (req, res) => {
   const notificationMessage: string = req.body.message;
 
   if (!notificationMessage) {
@@ -24,9 +24,9 @@ export default (db: IDatabase, notificationService: ISendNotfication) => async (
     //     Sending notification to ${subscriptions.length} users
     //     Notification message: ${notificationMessage}
     //   `);
-    subscriptions.forEach(async subscription => {
+    subscriptions.forEach(subscription => {
       try {
-        await notificationService.sendNotification(
+        notificationService.sendNotification(
           subscription.subscription,
           notificationMessage
         );

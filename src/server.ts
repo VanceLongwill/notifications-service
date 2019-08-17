@@ -4,15 +4,10 @@ import * as cors from "cors";
 
 // database
 import DB from "./db";
-
-// middlewares
-import saveSubscription from "./middlewares/saveSubscription";
-import notifyAll from "./middlewares/notifyAll";
-import notify from "./middlewares/notify";
-import getVapidKey from "./middlewares/getVapidKey";
-
 // config
 import config from "./config";
+// routes
+import mapRoutes from "./routes";
 
 const { vapidKeys, fcmApiKey, vapidEmail } = config;
 
@@ -33,27 +28,22 @@ const app = express();
 app.use(express.json());
 // setup cross origin headers for all routes
 app.use(cors());
+// allow cross origin preflight requests for all routes
 app.options("*", cors());
 
-// Endpoint for the browser to send the subscriptions
-app.post("/save-subscription", saveSubscription(db));
-
-// Dispatch a notification to all subscribed users
-app.post("/notify-all", notifyAll(db, webpush));
-
-// Dispatch a notfication to a specific user/set of users
-app.post("/notify", notify(db, webpush));
-
-// Get the vapid key
-app.get("/vapid-key", getVapidKey(vapidKeys.publicKey));
-
 const port = process.env.PORT || 5000;
-app.listen(port, () => {
-  console.log(`
+
+db.connect().then(() => {
+  // setup routes
+  mapRoutes(app, db, webpush, vapidKeys.publicKey);
+
+  app.listen(port, () => {
+    console.log(`
       ========================================================
         push notification service running on port ${port}
       ========================================================
     `);
+  });
 });
 
 // listen for the signal interruption (ctrl-c)

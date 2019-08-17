@@ -27,10 +27,10 @@ function isNotifyRequestValid(
 }
 
 // Send a notification to all currently subscribed clients
-export default (db: IDatabase, notificationService: ISendNotfication) => async (
-  req: express.Request,
-  res: express.Response
-) => {
+export default (
+  db: IDatabase,
+  notificationService: ISendNotfication
+): express.Handler => async (req, res) => {
   if (!isNotifyRequestValid(req, res)) {
     return;
   }

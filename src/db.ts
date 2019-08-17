@@ -16,13 +16,17 @@ export default class DB implements IDatabase {
     );
 
     // Migrate the db if it's empty
-    db
-      .defaults({
-        subscriptions: []
-      })
-      .write();
+    db.defaults({
+      subscriptions: []
+    }).write();
 
     this.db = db;
+  }
+
+  // connect
+  connect() {
+    // no need to connect to lowdb
+    return Promise.resolve();
   }
 
   // save the subcription to lowdb

@@ -30,10 +30,7 @@ function isValidSaveRequest(req: express.Request, res: express.Response) {
   return true;
 }
 
-export default (db: IDatabase) => async (
-  req: express.Request,
-  res: express.Response
-) => {
+export default (db: IDatabase): express.Handler => async (req, res) => {
   if (!isValidSaveRequest(req, res)) {
     return;
   }

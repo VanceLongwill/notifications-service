@@ -1,17 +1,12 @@
 import * as webpush from "web-push";
-
-interface IConfig {
-  vapidKeys: webpush.VapidKeys;
-  vapidEmail: string;
-  fcmApiKey: string;
-}
+import { IKeyPair, IConfig } from "./types"
 
 // check if the necessary env vars are present and return them
 function getConfig(): IConfig {
   const vapidPubKey = process.env.VAPID_PUB_KEY;
   const vapidPrivKey = process.env.VAPID_PRIV_KEY;
 
-  let vapidKeys: webpush.VapidKeys;
+  let vapidKeys: IKeyPair;
 
   if (vapidPubKey) {
     if (!vapidPrivKey) {
@@ -34,7 +29,6 @@ function getConfig(): IConfig {
   }
 
   const fcmApiKey = process.env.FCM_PUB_KEY;
-
   if (!fcmApiKey) {
     throw new Error(
       `Expected a FCM_PUB_KEY environment variable to be present`

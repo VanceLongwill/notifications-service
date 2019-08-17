@@ -17,6 +17,8 @@ export interface IDatabase {
   removeSubscription(subscription: IUserSubscription): Promise<string>;
   // Closes the database connection
   close(): Promise<string>;
+  // Connects to the database
+  connect(): Promise<void>;
 }
 
 // One user id can have multiple subscriptions for notifications (multiple browsers, devices) but each subscription object can only have one user id
@@ -38,4 +40,15 @@ export interface ISendNotfication {
     subscription: IUserSubscription["subscription"],
     message: string
   ): Promise<any>;
+}
+
+export interface IKeyPair {
+  publicKey: string;
+  privateKey: string;
+}
+
+export interface IConfig {
+  vapidKeys: IKeyPair;
+  vapidEmail: string;
+  fcmApiKey: string;
 }
