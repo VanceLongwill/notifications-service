@@ -12,7 +12,7 @@ describe("getVapidKey middleware", () => {
       status: sinon.spy(),
       send: sinon.spy()
     };
-    await middleware({} as any, mockRes as any);
+    await middleware({} as any, mockRes as any, () => {});
 
     assert(mockRes.status.calledOnce);
     expect(mockRes.status.firstCall.args[0]).to.equal(200);

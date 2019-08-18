@@ -6,38 +6,56 @@ export default (
   db: IDatabase,
   notificationService: ISendNotfication
 ): express.Handler => async (req, res) => {
-  const notificationMessage: string = req.body.message;
-
-  if (!notificationMessage) {
+  if (!req.body.notification) {
     res.status(400);
     res.send({
       error: {
-        message: "Request body must contain a valid message attribute"
+        message: "Request body must contain a valid notification object"
       }
     });
     return;
   }
 
+  // @TODO: more refined error handling
   try {
     const subscriptions = await db.getAllSubscriptions();
+    if (!subscriptions.length) {
+      res.status(404);
+      res.send({
+        error: {
+          message: "No subscriptions found"
+        }
+      });
+      return;
+    }
     // console.log(`
     //     Sending notification to ${subscriptions.length} users
     //     Notification message: ${notificationMessage}
     //   `);
-    subscriptions.forEach(subscription => {
-      try {
-        notificationService.sendNotification(
-          subscription.subscription,
-          notificationMessage
-        );
-      } catch (e) {
-        // @TODO: remove subscription endpoints which cause errors
-        console.warn(e.message);
-      }
-    });
+    const failed: {
+      endpoint: string;
+      error: string;
+    }[] = [];
+    await Promise.all(
+      subscriptions.map(subscription =>
+        notificationService
+          .sendNotification(
+            subscription.subscription,
+            JSON.stringify(req.body.notification)
+          )
+          .catch(e => {
+            // @TODO: remove subscription endpoints which cause errors
+            failed.push({
+              endpoint: subscription.subscription.endpoint,
+              error: e.message
+            });
+          })
+      )
+    );
     res.status(200);
     res.send({
-      message: "Notifications sent"
+      message: "Notifications sent",
+      failed
     });
   } catch (e) {
     res.status(500);

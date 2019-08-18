@@ -33,7 +33,7 @@ describe("notifyAll middleware", () => {
       }
     };
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockRes.status.calledOnce);
     expect(mockRes.status.firstCall.args[0]).to.equal(400);
@@ -41,7 +41,7 @@ describe("notifyAll middleware", () => {
     assert(mockRes.send.calledOnce);
     expect(mockRes.send.firstCall.args[0]).to.deep.equal({
       error: {
-        message: "Request body must contain a valid message attribute"
+        message: "Request body must contain a valid notification object"
       }
     });
   });
@@ -49,14 +49,14 @@ describe("notifyAll middleware", () => {
   it("should get all subscriptions on a successful request", async () => {
     const mockReq = {
       body: {
-        message: "Some notifcation!"
+        notification: {}
       }
     };
 
     sendNotification.resolves({ body: "something" });
-    mockDB.getAllSubscriptions.returns(subscriptions);
+    mockDB.getAllSubscriptions.resolves(subscriptions);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getAllSubscriptions.calledOnce);
 
@@ -70,14 +70,15 @@ describe("notifyAll middleware", () => {
 
     assert(mockRes.send.calledOnce);
     expect(mockRes.send.firstCall.args[0]).to.deep.equal({
-      message: "Notifications sent"
+      message: "Notifications sent",
+      failed: []
     });
   });
 
   it("should send an error response when getAllSubscriptions fails", async () => {
     const mockReq = {
       body: {
-        message: "Some notifcation!"
+        notification: {}
       }
     };
 
@@ -85,7 +86,7 @@ describe("notifyAll middleware", () => {
     const errorMsg = "aaahhhhhhh";
     mockDB.getAllSubscriptions.rejects(new Error(errorMsg));
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getAllSubscriptions.calledOnce);
     assert(sendNotification.notCalled);

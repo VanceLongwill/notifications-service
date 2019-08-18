@@ -5,11 +5,11 @@ function isNotifyRequestValid(
   req: express.Request,
   res: express.Response
 ): boolean {
-  if (!req.body.message) {
+  if (!req.body.notification) {
     res.status(400);
     res.send({
       error: {
-        message: "Request body must contain a valid message attribute"
+        message: "Request body must contain a valid notification object"
       }
     });
     return false;
@@ -35,36 +35,44 @@ export default (
     return;
   }
 
-  const notificationMessage: string = req.body.message;
   const targetIDs: string[] = req.body.targets;
 
   try {
-    for (const targetID of targetIDs) {
-      const subscriptions = await db.getSubscriptionsByID(targetID);
-      if (!subscriptions.length) {
-        console.log(`Unable to find subscription for id: ${targetID}`);
-        break;
-      }
-      const sendErrors: Error[] = [];
-      for (const s of subscriptions) {
-        await notificationService
-          .sendNotification(s.subscription, notificationMessage)
-          .catch(e => {
-            sendErrors.push(e);
-          });
-      }
-      if (sendErrors.length === subscriptions.length) {
-        throw new Error(
-          `No notifications were sent:\n${sendErrors
-            .map(e => e.message)
-            .join("\n")}`
+    const results = await Promise.all(
+      targetIDs.map(async targetID => {
+        const subscriptions = await db.getSubscriptionsByID(targetID);
+        const failed: {
+          endpoint?: string;
+          error: string;
+        }[] = [];
+        if (!subscriptions.length) {
+          failed[0].error = `Unable to find subscription for id: ${targetID}`;
+          return { id: targetID, failed };
+        }
+        await Promise.all(
+          subscriptions.map(s =>
+            notificationService
+              .sendNotification(
+                s.subscription,
+                JSON.stringify(req.body.notification)
+              )
+              .catch(e => {
+                failed.push({
+                  endpoint: s.subscription.endpoint,
+                  error: e.message
+                });
+              })
+          )
         );
-      }
-    }
+
+        return { id: targetID, failed };
+      })
+    );
 
     res.status(200);
     res.send({
-      message: "Notifications sent"
+      message: "Notifications sent",
+      results
     });
   } catch (e) {
     res.status(500);

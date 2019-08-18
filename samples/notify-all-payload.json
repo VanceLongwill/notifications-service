@@ -1,3 +1,27 @@
 {
-  "message": "This is an example notification!"
+  "notification": {
+    "title": "Attention all users!",
+    "body": "This is an important message for you all",
+    "image": "https://cdn2.thedogapi.com/images/2Y-PXyVC9_1280.jpg",
+    "icon": "https://freeicons.io/laravel/public/uploads/icons/png/2388226741564139544-128.png",
+    "url": "http://localhost:3000/",
+    "data": {
+      "actionMap": {
+        "searchGoogle": "http://google.com",
+        "wiki": "http://wikipedia.org"
+      }
+    },
+    "actions": [
+      {
+        "action": "searchGoogle",
+        "title": "Search Google",
+        "icon": "https://banner2.kisspng.com/20180419/qse/kisspng-computer-icons-clip-art-my-account-icon-5ad833d2cb8184.4812548115241184828336.jpg"
+      },
+      {
+        "action": "wiki",
+        "title": "Browse Wikipedia",
+        "icon": "https://cdn1.iconfinder.com/data/icons/ui-22/24/391-512.png"
+      }
+    ]
+  }
 }

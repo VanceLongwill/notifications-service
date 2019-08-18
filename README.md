@@ -2,6 +2,13 @@
 
 A service to receive push notification subscriptions from the browser and to dispatch notifications to all subscribed users.
 
+#### TODO
+
+- [x] Send all possible notification options
+- [ ] Validate notifications schema with joi & request schema
+- [ ] Improve test coverage
+- [ ] Manage consistently failing subscription endpoints
+
 > This project uses a dotenv (`.env`) configuration file to load API keys
 
 - Subscription objects are persisted to `db.json`

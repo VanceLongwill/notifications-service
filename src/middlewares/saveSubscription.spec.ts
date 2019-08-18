@@ -47,7 +47,7 @@ describe("saveSubscription middleware", () => {
 
     for (const t of payloadTests) {
       const mockReq = { body: t.payload };
-      await middleware(mockReq as any, mockRes as any);
+      await middleware(mockReq as any, mockRes as any, () => {});
 
       assert(mockRes.status.calledOnce);
       expect(mockRes.status.firstCall.args[0]).to.equal(400);
@@ -76,7 +76,7 @@ describe("saveSubscription middleware", () => {
     mockDB.getSubscriptionsByID.returns([subscriptions[3]]);
     mockDB.getSubscriptionsByURL.returns([subscriptions[3]]);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(
       mockDB.getSubscriptionsByID.calledOnce,
@@ -117,7 +117,7 @@ describe("saveSubscription middleware", () => {
 
     mockDB.getSubscriptionsByURL.returns([subscriptionWithoutID]);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(
       mockDB.getSubscriptionsByURL.calledOnce,
@@ -159,7 +159,7 @@ describe("saveSubscription middleware", () => {
     mockDB.getSubscriptionsByID.returns([]);
     mockDB.getSubscriptionsByURL.returns([subscriptionWithoutID]);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getSubscriptionsByID.calledOnce);
 
@@ -205,7 +205,7 @@ describe("saveSubscription middleware", () => {
     mockDB.getSubscriptionsByID.returns([]);
     mockDB.getSubscriptionsByURL.returns([subscriptions[3]]);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getSubscriptionsByID.calledOnce);
 
@@ -248,7 +248,7 @@ describe("saveSubscription middleware", () => {
     mockDB.getSubscriptionsByID.returns([subscriptions[3]]);
     mockDB.getSubscriptionsByURL.returns([]);
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getSubscriptionsByURL.calledOnce);
 
@@ -291,7 +291,7 @@ describe("saveSubscription middleware", () => {
     const errorMsg = "aaahhhhhhh";
     mockDB.getSubscriptionsByID.rejects(new Error(errorMsg));
 
-    await middleware(mockReq as any, mockRes as any);
+    await middleware(mockReq as any, mockRes as any, () => {});
 
     assert(mockDB.getSubscriptionsByID.calledOnce);
 

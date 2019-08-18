@@ -9,4 +9,5 @@ export default class DBMock implements IDatabase {
   getSubscriptionsByURL = sinon.stub();
   removeSubscription = sinon.stub();
   close = sinon.stub();
+  connect = sinon.stub();
 }
